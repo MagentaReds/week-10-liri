@@ -1,0 +1,31 @@
+{
+  "name": "liri-homework",
+  "version": "1.0.0",
+  "description": "Command line interface that incorporates 4 different functions, display my recent tweets from twitter, find song information with song title as search string, movie lookup via omdb via movie tititle, execute the command and parameter from a file on the server.",
+  "main": "liri.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MagentaReds/week-10-liri.git"
+  },
+  "keywords": [
+    "homework",
+    "twitter",
+    "spotify",
+    "request",
+    "test"
+  ],
+  "author": "Grant Daniels",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MagentaReds/week-10-liri/issues"
+  },
+  "homepage": "https://github.com/MagentaReds/week-10-liri#readme",
+  "dependencies": {
+    "request": "^2.81.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.7.0"
+  }
+}
