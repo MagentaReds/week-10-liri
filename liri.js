@@ -227,4 +227,4 @@ function logs(str, con_out=true) {
 
   var logStr="\n("+moment().format()+")\n"+str;
   fs.appendFile("log.txt", logStr, function(err){if(err) console.log(err);});
-};
+}
