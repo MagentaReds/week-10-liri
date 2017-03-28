@@ -31,7 +31,7 @@ function doAction(param1, param2="") {
       getCommandFromFile();
       break;
     default:
-      logs("Invalid Paramter");
+      logs("Invalid Parameter");
       break;
   }
 }
