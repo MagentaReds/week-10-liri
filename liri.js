@@ -4,7 +4,7 @@ var request = require("request");   //web request module
 var moment = require("moment");     //used for timestamps for logs
 var fs = require("fs");             //used to read random.txt and read/write to log.txt
 
-var twitterKeys = require("./keys.js"); //inport values found in keys.js
+var twitterKeys = require("./keys.js"); //import values found in keys.js
 
 
 //my-tweets, spotify-this-song, movie-this, do-what-it-says
@@ -114,7 +114,7 @@ function getSong(name) {
   });
 
 
-  //Start of coding for using request instead of the spotify module
+  //Startings of some code for using request instead of the spotify module
   //var requestUrl="https://api.spotify.com/v1/search?type=track&q=";
   // request(requestUrl+search, function(err, response, body){
   //   if(err)
