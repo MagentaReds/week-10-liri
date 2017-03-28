@@ -1,15 +1,19 @@
-var Twitter = require("twitter");
-var spotify = require("spotify");
-var request = require("request");
-var moment = require("moment");
-var fs = require("fs");
+var Twitter = require("twitter");  //twitter api helper module
+var spotify = require("spotify");   //silly spotify module.  Could be easily replaced with request calls
+var request = require("request");   //web request module
+var moment = require("moment");     //used for timestamps for logs
+var fs = require("fs");             //used to read random.txt and read/write to log.txt
 
-var twitterKeys = require("./keys.js");
+var twitterKeys = require("./keys.js"); //inport values found in keys.js
 
 
 //my-tweets, spotify-this-song, movie-this, do-what-it-says
+//starts the program
 doAction(process.argv[2], process.argv[3]);
 
+
+//Main function
+//Takes two passed str's ans parameters, and does one of the 4 functions of this node.js app.
 function doAction(param1, param2="") {
   logs("Param: "+param1 +" "+param2, false);
 
@@ -33,6 +37,7 @@ function doAction(param1, param2="") {
 }
 
 
+//Using the keys from keys.js, this function gets the latest 20 tweets from @UTBCWeek10, displays them and logs them.
 function getTweets() {
   var client = new Twitter(twitterKeys.twitterKeys);
 
@@ -49,7 +54,8 @@ function getTweets() {
     if(err)
       return logs(err);
 
-    // fs.writeFile("tweets.txt", JSON.stringify(tweets,null,2), function(err){
+    //this is used for seeing the response object in a file for later/easier viewing
+    // fs.writeFile("tweets.json", JSON.stringify(tweets,null,2), function(err){
     //   if(err)
     //     consle.log(err);
     // });
@@ -68,6 +74,9 @@ function getTweets() {
 
 }
 
+//this function takes the name parameter and uses the spotify module to request more details of the song name.
+//spotify will return 20 results, I just take the first one as that is probably the best match and the one we are interested in.
+//I have not handled if spotify cannot find the song.
 function getSong(name) {
   var search;
   if(name===undefined || name===""){
@@ -82,7 +91,8 @@ function getSong(name) {
     if(err)
       return logs(err);
 
-    // fs.writeFile("songs.txt", JSON.stringify(data,null,2), function(err){
+    //this is used for seeing the response object in a file for later/easier viewing
+    // fs.writeFile("songs.json", JSON.stringify(data,null,2), function(err){
     //   if(err)
     //     logs(err);
     // });
@@ -104,6 +114,7 @@ function getSong(name) {
   });
 
 
+  //Start of coding for using request instead of the spotify module
   //var requestUrl="https://api.spotify.com/v1/search?type=track&q=";
   // request(requestUrl+search, function(err, response, body){
   //   if(err)
@@ -122,6 +133,8 @@ function getSong(name) {
 
 }
 
+//This function calls the omdb api via request to search for the movie named passed.
+//Output's the movie details to the console and the log file
 function getMovie(name) {
   var search;
   if(name===undefined || name==="") {
@@ -132,14 +145,15 @@ function getMovie(name) {
     search=name;
   }
 
-  var url="http://www.omdbapi.com/?t="+search+"&tomatoes=true";
+  var url="http://www.omdbapi.com/?t="+search+"&tomatoes=true";  //need this optional paramter to get rotten tomatoe related info in the response json
   request(url, function(err, response, body){
     if(err)
       return logs(err);
     if(response.statusCode!==200)
       return logs(response);
     
-    // fs.writeFile("movie.txt", JSON.stringify(JSON.parse(body),null,2), function(err){
+    //this is used for seeing the response object in a file for later/easier viewing
+    // fs.writeFile("movie.json", JSON.stringify(JSON.parse(body),null,2), function(err){
     //   if(err)
     //     logs(err);
     // });
@@ -155,6 +169,7 @@ function getMovie(name) {
       output+="\nPlot: "+object.Plot;
       output+="\nActors: "+object.Actors;
 
+      //it looks like the rotten tomatoes is not updated, so we check the ratings object for a rotten tomatoe score there, if it exists.
       output+="\nRotten Tomatoes Score: ";
       if(object.tomatoMeter==="N/A" && object.Ratings!==undefined) {
         var temp=null;
@@ -183,6 +198,10 @@ function getMovie(name) {
   
 }
 
+//this function reads random.txt
+//the text in random.txt must be in the following format with no extra whitespaces outside the param2's quotation marks
+//param1,"parameter 2"
+//the function then calls doAction() with the parameters read.
 function getCommandFromFile() {
   logs("Reading command from file");
   fs.readFile("random.txt", "utf8", function(err, data){
@@ -190,12 +209,18 @@ function getCommandFromFile() {
       return logs(err);
 
     var split=data.split(',');
+    var action=split[0];
+    var param="";
 
-    return doAction(split[0], split[1].substring(1,split[1].length-1));
+    if(split[1]!==undefined)
+      param=split[1].substring(1,split[1].length-1);  //removes the " " as read from the file.
+
+    return doAction(action, param);
   });
 
 }
 
+//function that appends the str to log.txt and if con_out is true (true by default) also console.logs str
 function logs(str, con_out=true) {
   if(con_out)
     console.log(str);
