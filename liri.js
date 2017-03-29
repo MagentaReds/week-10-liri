@@ -166,6 +166,7 @@ function getMovie(name) {
       output+="\nRelease Date: "+object.Year;
       output+="\nIMDB Rating: "+object.imdbRating;
       output+="\nLanguage: "+object.Language;
+      output+="\nCountry Produced: "+object.Country;
       output+="\nPlot: "+object.Plot;
       output+="\nActors: "+object.Actors;
 
