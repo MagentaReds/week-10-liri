@@ -15,7 +15,7 @@ doAction(process.argv[2], process.argv[3]);
 //Main function
 //Takes two passed str's ans parameters, and does one of the 4 functions of this node.js app.
 function doAction(param1, param2="") {
-  logs("Param: "+param1 +" "+param2, false);
+  logs("Param: "+param1 +" \""+param2+"\"", false);
 
   switch(param1){
     case "my-tweets":
