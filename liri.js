@@ -98,19 +98,23 @@ function getSong(name) {
     // });
 
     var firstResult=data.tracks.items[0];
+    if(firstResult) {
 
-    var output="";
-    output+="==============================";
-    output+="\nArtist(s): "+firstResult.artists[0].name;
-    for(var i=1; i<firstResult.artists.length; ++i)
-      output+=", "+firstResult.artists[i].name;
+      var output="";
+      output+="==============================";
+      output+="\nArtist(s): "+firstResult.artists[0].name;
+      for(var i=1; i<firstResult.artists.length; ++i)
+        output+=", "+firstResult.artists[i].name;
 
-    output+="\nSong Name: "+firstResult.name;
-    output+="\nAlbum: "+firstResult.album.name;
-    output+="\nPreview URL: "+firstResult.preview_url;
-    output+="\n==============================";
+      output+="\nSong Name: "+firstResult.name;
+      output+="\nAlbum: "+firstResult.album.name;
+      output+="\nPreview URL: "+firstResult.preview_url;
+      output+="\n==============================";
 
-    logs(output);
+      logs(output);
+    } else{
+      logs("Error: song not found");
+    }
   });
 
 
